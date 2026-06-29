@@ -77,4 +77,5 @@ LLM 输出最终答案。
 中文支持: 建议在 Ollama 中选择对中文支持较好的模型（如 qwen, chatglm3, yi 等）。
 数据安全: 所有数据均存储在本地 faiss_index 目录中，不会上传至云端
 
+# 对应详细步骤以及解析见博客: https://blog.csdn.net/zhoupenghui168/article/details/162247139
 ```
