@@ -28,40 +28,45 @@
 
 ### 2. 安装依赖
 克隆本项目后，进入项目目录，使用 pip 安装所需的第三方库：
+```
 pip install faiss-cpu
 pip install langchain
 pip install ollama
+```
 ###  3. 模型准备
 本项目采用本地离线运行模式，推荐使用 Ollama 来管理和运行大模型。
-下载并安装 Ollama。
-拉取你需要的模型（例如 Qwen 或 ChatGLM）：
-ollama pull qwen:7b  # 或者 ollama pull chatglm3
-🚀 快速开始
+- **下载并安装 Ollama**
+- **拉取你需要的模型（例如 Qwen 或 ChatGLM）：** ollama pull qwen:7b  # 或者 ollama pull chatglm3
+## 🚀 快速开始
 #### 1. 准备知识库数据
-将你的行业知识文档（支持 .txt, .pdf 等格式）放入项目根目录。
+将你的行业知识文档（支持 .txt, .pdf 等格式）放入项目根目录
 示例数据：物流信息.pdf
 #### 2. 构建索引与问答
 运行主程序脚本（假设主入口为 local_qa.py 或 new_demo.py，请根据实际文件名调整）：
+```
 python local_qa.py
+```
 #### 3. Web 界面交互 (可选)
 如果项目包含 Web UI 脚本（如 web_qa.py），可以启动网页版问答界面：
+```
 python web_qa.py
+```
 ## 🏗️ 项目原理
 本系统遵循标准的 RAG 流程，主要分为三个阶段：Retrieve (检索), Augment (增强), Generate (生成)。
 详细处理流程：
--- 加载文件 (Load): 读取本地文档（如 PDF, TXT）。
--- 文本分割 (Split): 将长文档切分为较小的文本块 (Chunks)，以便模型处理。
--- 向量化 (Embedding): 使用 Embedding 模型将文本块转化为向量。
--- 存储 (Store): 将向量存入本地向量数据库 (FAISS Index)。
--- 检索 (Retrieve):
+- **加载文件 (Load)**: 读取本地文档（如 PDF, TXT）。
+- **文本分割 (Split)**: 将长文档切分为较小的文本块 (Chunks)，以便模型处理。
+- **向量化 (Embedding)**: 使用 Embedding 模型将文本块转化为向量。
+- **存储 (Store)**: 将向量存入本地向量数据库 (FAISS Index)。
+- **检索 (Retrieve)**:
         用户输入问题 (Query)。
         将问题向量化。
         在 FAISS 中计算相似度，召回 Top-K 个最相关的文本块。
---生成 (Generate):
+-- **生成 (Generate):
         将“用户问题”与“召回的文本块”组装成 Prompt。
         提交给本地 LLM (如 Qwen/ChatGLM)。
         LLM 输出最终答案。
-📂 项目结构
+## 📂 项目结构
 ```
 /
 ├── faiss_index/          # 生成的向量索引文件夹
@@ -73,9 +78,9 @@ python web_qa.py
 └── README.md             # 项目说明文档
 ```
 ## 📝 注意事项
-显存要求: 运行本地大模型（如 7B 参数量的模型）通常需要至少 8GB-16GB 的系统内存或显存。
-中文支持: 建议在 Ollama 中选择对中文支持较好的模型（如 qwen, chatglm3, yi 等）。
-数据安全: 所有数据均存储在本地 faiss_index 目录中，不会上传至云端
+- **显存要求**: 运行本地大模型（如 7B 参数量的模型）通常需要至少 8GB-16GB 的系统内存或显存。
+- **中文支持**: 建议在 Ollama 中选择对中文支持较好的模型（如 qwen, chatglm3, yi 等）。
+- **数据安全**: 所有数据均存储在本地 faiss_index 目录中，不会上传至云端
 
 ##### 对应详细步骤以及解析见博客: https://blog.csdn.net/zhoupenghui168/article/details/162247139
 ```
