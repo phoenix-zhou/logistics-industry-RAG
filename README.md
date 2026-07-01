@@ -1,4 +1,86 @@
 # 📦 Logistics RAG System (Logistics Industry Knowledge Base Q&A)
+This project is a local knowledge base Q&A system based on RAG (Retrieval-Augmented Generation) technology.
+Although this project is built and tested using the "Logistics Industry" as an example, the system is highly versatile. Users can freely switch to knowledge documents from other industries (such as finance, healthcare, law, etc.) to quickly implement a private, local knowledge base Q&A solution.
+## ✨ Key Features
+- **🔍 Local Knowledge Base Q&A:**  The system can perform semantic searches within the local vector database based on the user's natural language questions, accurately match relevant document fragments, and return fact-based answers.
+- **🤖 Multi-Model Support**:
+     - **Embedding Model**: Responsible for converting text into vectors. Supports replacing different vectorization models to optimize retrieval performance.
+     - **LLM (Large Language Model)**: Responsible for generating the final answer based on the context. Supports integrating various open-source models like ChatGLM, Qwen, and Llama.
+- **🔒 Offline & Private Deployment**: ** All data processing, vector retrieval, and model inference are completed locally without an internet connection, ensuring the security and privacy of core enterprise data.
+- **⚙️ Flexible & Extensible**: Developed based on the LangChain framework, making it easy to extend with new document loaders or vector storage solutions.
+## 🛠️ Tech Stack
+- **Programming Language**: Python (3.8 - 3.11)
+- **Core Framework**: LangChain
+- **Vector Database**: FAISS (Facebook AI Similarity Search)
+- **Model Management**: Ollama (for running and managing LLMs locally)
+- **Dependencies**: faiss-cpu, langchain, ollama
+## ⚙️ Environment Setup & Installation
+### 1. Prerequisites
+Ensure Python is installed on your machine. The recommended version is Python 3.8 - 3.11.
+### 2. Install Dependencies
+After cloning this project, navigate to the project directory and use pip to install the required third-party libraries:
+```
+pip install faiss-cpu
+pip install langchain
+pip install ollama
+```
+### 3. Model Preparation
+This project uses a local offline mode. It is recommended to use Ollama to manage and run the large models.
+- **Download and install Ollama.**
+- **Pull the model you need**(e.g., Qwen or ChatGLM):
+   - **ollama pull qwen:7b**  # or ollama pull chatglm3
+## 🚀 Quick Start
+### 1. Prepare Knowledge Base Data
+Place your industry knowledge documents (supporting formats like .txt, .pdf, etc.) into the project's root directory.
+Example Data: 物流信息.pdf (Logistics Information.pdf)
+### 2. Build Index & Q&A
+Run the main program script (assuming the main entry point is local_qa.py or new_demo.py, please adjust according to the actual filename):
+```
+python local_qa.py
+```
+### 3. Web Interface Interaction (Optional)
+If the project includes a Web UI script (e.g., web_qa.py), you can start the web-based Q&A interface:
+```
+python web_qa.py
+```
+## 🏗️ Project Principle
+This system follows the standard RAG process, which is mainly divided into three stages: Retrieve, Augment, and Generate.
+Detailed Processing Flow:
+- **Load**: Read local documents (e.g., PDF, TXT).
+- **Split**: Split long documents into smaller text chunks for model processing.
+- **Embedding**: Use an Embedding model to convert text chunks into vectors.
+- **Store**: Store the vectors in the local vector database (FAISS Index).
+- **Retrieve**:
+   - **User inputs a question (Query).**
+   - **The question is converted into a vector.**
+   - **Calculate similarity in FAISS and retrieve the top-K most relevant text chunks.**
+- **Generate**:
+  - **Assemble the "user question" and the "retrieved text chunks" into a Prompt.**
+  - **Submit to the local LLM (e.g., Qwen/ChatGLM).**
+  - **The LLM outputs the final answer.**
+##📂 Project Structure
+
+```
+/
+├── faiss_index/          # Folder for generated vector indexes
+├── local_db.py           # Database construction and indexing logic
+├── local_qa.py           # Main command-line Q&A program
+├── new_demo.py           # Demo script
+├── web_qa.py             # Web interface startup script
+├── 物流信息.pdf          # Example knowledge base file
+└── README.md             # Project documentation
+```
+## 📝 Notes
+- **VRAM Requirement**: Running a local large model (e.g., a 7B parameter model) typically requires at least 8GB-16GB of system RAM or VRAM.
+- **Chinese Support**: It is recommended to choose models with good Chinese support in Ollama (e.g., qwen, chatglm3, yi, etc.).
+- **Data Security**: All data is stored in the local faiss_index directory and will not be uploaded to the cloud.
+#### For detailed steps and analysis, please refer to the blog post:
+```
+https://blog.csdn.net/zhoupenghui168/article/details/162247139
+```
+---------------------------------------------------------------------------------------
+
+# 📦 Logistics RAG System (Logistics Industry Knowledge Base Q&A)
 
 本项目是一个基于 **RAG (Retrieval-Augmented Generation，检索增强生成)** 技术的本地知识库问答系统。
 
@@ -62,7 +144,7 @@ python web_qa.py
         用户输入问题 (Query)。
         将问题向量化。
         在 FAISS 中计算相似度，召回 Top-K 个最相关的文本块。
--- **生成 (Generate):
+-- **生成 (Generate)**:
         将“用户问题”与“召回的文本块”组装成 Prompt。
         提交给本地 LLM (如 Qwen/ChatGLM)。
         LLM 输出最终答案。
@@ -82,5 +164,7 @@ python web_qa.py
 - **中文支持**: 建议在 Ollama 中选择对中文支持较好的模型（如 qwen, chatglm3, yi 等）。
 - **数据安全**: 所有数据均存储在本地 faiss_index 目录中，不会上传至云端
 
-##### 对应详细步骤以及解析见博客: https://blog.csdn.net/zhoupenghui168/article/details/162247139
+##### 对应详细步骤以及解析见博客:
+```
+https://blog.csdn.net/zhoupenghui168/article/details/162247139
 ```
